@@ -9,9 +9,10 @@ class ETLSpec
   "The ETL process" should
     "merge movies and links in orther to take only useful info" in {
 
+    val conf = new SparkConf()
+      .setMaster("local")
+      .setAppName("Kudu Batch ETL Test")
 
-
-    val conf = new SparkConf().setMaster("local").setAppName("Kudu Batch ETL Test")
     val sc = new SparkContext(conf)
     val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 
