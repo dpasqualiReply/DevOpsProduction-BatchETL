@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Test scalatest') {
       steps {
-        sh 'sbt clean test coverage coverageReport'
+        sh 'sbt clean test'
         archiveArtifacts 'target/test-reports/*.xml'
       }
     }
