@@ -1,4 +1,6 @@
 
+import java.io.File
+
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.Row
 import org.apache.spark.{SparkConf, SparkContext}
@@ -7,10 +9,15 @@ import org.scalatest._
 class ETLSpec
   extends FlatSpec{
 
+  val CONFIG_FILE = "/opt/conf/BatchETL_staging.conf"
+
   "The ETL process" should
     "merge movies and links in orther to take only useful info" in {
 
-    val configuration = ConfigFactory.load("BatchETL_staging")
+    //val configuration = ConfigFactory.load("BatchETL_staging")
+
+    val configuration = ConfigFactory.parseFile(new File(CONFIG_FILE))
+
     val SPARK_APPNAME = configuration.getString("betl.spark.app_name")
     val SPARK_MASTER = configuration.getString("betl.spark.master")
 

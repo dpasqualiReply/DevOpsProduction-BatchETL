@@ -1,3 +1,5 @@
+import java.io.File
+
 import com.typesafe.config.ConfigFactory
 import org.apache.kudu.spark.kudu._
 import org.apache.log4j.Logger
@@ -24,9 +26,14 @@ object BatchETL {
   val OUTPUT_MOVIES_BY_GENRES = "impala::datamart.genres"
 */
 
+  val CONFIG_FILE = "/opt/conf/BatchETL.conf"
+
   def main(args: Array[String]): Unit = {
 
-    val configuration = ConfigFactory.load("BatchETL")
+    //val configuration = ConfigFactory.load("BatchETL")
+
+    val configuration = ConfigFactory.parseFile(new File(CONFIG_FILE))
+
     INPUT_MOVIES = configuration.getString("betl.hive.input.movies")
     INPUT_LINKS = configuration.getString("betl.hive.input.links")
     INPUT_GTAGS = configuration.getString("betl.hive.input.gtags")
