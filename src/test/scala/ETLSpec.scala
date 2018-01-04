@@ -1,4 +1,6 @@
 
+import BatchETL.{SPARK_APPNAME, SPARK_MASTER}
+import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.Row
 import org.apache.spark.{SparkConf, SparkContext}
 import org.scalatest._
@@ -9,9 +11,13 @@ class ETLSpec
   "The ETL process" should
     "merge movies and links in orther to take only useful info" in {
 
+    val configuration = ConfigFactory.load("BatchETL_staging")
+    SPARK_APPNAME = configuration.getString("betl.spark.app_name")
+    SPARK_MASTER = configuration.getString("betl.spark.master")
+
     val conf = new SparkConf()
-      .setMaster("local")
-      .setAppName("Kudu Batch ETL Test")
+      .setMaster(SPARK_MASTER)
+      .setAppName(SPARK_APPNAME)
 
     val sc = new SparkContext(conf)
     val sqlContext = new org.apache.spark.sql.SQLContext(sc)
