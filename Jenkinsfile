@@ -16,7 +16,7 @@ pipeline {
     }
     stage('Test the System') {
       steps {
-        sh 'll /otp/conf/'
+        sh 'ls /otp/conf/'
         sh 'java -version'
         sh 'sbt about'
       }
