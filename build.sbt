@@ -10,6 +10,7 @@ resolvers ++= Seq(
 
 libraryDependencies ++= Seq(
 
+  "com.typesafe" % "config" % "1.3.2",
   "org.scalatest" % "scalatest_2.10" % "2.2.2" % "test",
   "org.apache.spark" % "spark-core_2.10" % "2.2.0",
   "org.apache.spark" % "spark-sql_2.10" % "2.2.0",

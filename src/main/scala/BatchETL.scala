@@ -1,16 +1,20 @@
+import com.typesafe.config.ConfigFactory
 import org.apache.kudu.spark.kudu._
 import org.apache.log4j.Logger
 import org.apache.spark._
 
 object BatchETL {
 
-  val INPUT_MOVIES = "datalake.movies"
-  val INPUT_LINKS = "datalake.links"
-  val INPUT_GTAGS = "datalake.genometags"
-  val KUDU_MASTER = "cloudera-vm.c.endless-upgrade-187216.internal:7051"
+  var INPUT_MOVIES = ""
+  var INPUT_LINKS = ""
+  var INPUT_GTAGS = ""
+  var KUDU_MASTER = "" //"cloudera-vm.c.endless-upgrade-187216.internal:7051"
 
-  val OUTPUT_KUDU_MOVIES = "impala::datamart.movies"
-  val OUTPUT_KUDU_GTAGS = "impala::datamart.genometags"
+  var OUTPUT_KUDU_MOVIES = ""
+  var OUTPUT_KUDU_GTAGS = ""
+
+  var SPARK_APPNAME = ""
+  var SPARK_MASTER = ""
 
 /*
 
@@ -22,7 +26,20 @@ object BatchETL {
 
   def main(args: Array[String]): Unit = {
 
-    val conf = new SparkConf().setMaster("local").setAppName("Kudu Batch ETL")
+    val configuration = ConfigFactory.load("BatchETL")
+    INPUT_MOVIES = configuration.getString("betl.hive.input.movies")
+    INPUT_LINKS = configuration.getString("betl.hive.input.links")
+    INPUT_GTAGS = configuration.getString("betl.hive.input.genometags")
+
+    KUDU_MASTER = configuration.getString("betl.kudu.master")
+    OUTPUT_KUDU_MOVIES = configuration.getString("betl.kudu.output.movies")
+    OUTPUT_KUDU_GTAGS = configuration.getString("betl.kudu.output.genometags")
+
+    SPARK_APPNAME = configuration.getString("betl.spark.app_name")
+    SPARK_MASTER = configuration.getString("betl.spark.master")
+
+
+    val conf = new SparkConf().setMaster(SPARK_MASTER).setAppName(SPARK_APPNAME)
     val sc = new SparkContext(conf)
     val sqlContext = new org.apache.spark.sql.SQLContext(sc)
     val kuduContext = new KuduContext(KUDU_MASTER, sc)
