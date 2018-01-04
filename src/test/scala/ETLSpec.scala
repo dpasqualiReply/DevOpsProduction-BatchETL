@@ -1,5 +1,4 @@
 
-import BatchETL.{SPARK_APPNAME, SPARK_MASTER}
 import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.Row
 import org.apache.spark.{SparkConf, SparkContext}
@@ -12,8 +11,8 @@ class ETLSpec
     "merge movies and links in orther to take only useful info" in {
 
     val configuration = ConfigFactory.load("BatchETL_staging")
-    SPARK_APPNAME = configuration.getString("betl.spark.app_name")
-    SPARK_MASTER = configuration.getString("betl.spark.master")
+    val SPARK_APPNAME = configuration.getString("betl.spark.app_name")
+    val SPARK_MASTER = configuration.getString("betl.spark.master")
 
     val conf = new SparkConf()
       .setMaster(SPARK_MASTER)

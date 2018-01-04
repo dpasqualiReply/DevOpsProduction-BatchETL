@@ -29,11 +29,11 @@ object BatchETL {
     val configuration = ConfigFactory.load("BatchETL")
     INPUT_MOVIES = configuration.getString("betl.hive.input.movies")
     INPUT_LINKS = configuration.getString("betl.hive.input.links")
-    INPUT_GTAGS = configuration.getString("betl.hive.input.genometags")
+    INPUT_GTAGS = configuration.getString("betl.hive.input.gtags")
 
     KUDU_MASTER = configuration.getString("betl.kudu.master")
     OUTPUT_KUDU_MOVIES = configuration.getString("betl.kudu.output.movies")
-    OUTPUT_KUDU_GTAGS = configuration.getString("betl.kudu.output.genometags")
+    OUTPUT_KUDU_GTAGS = configuration.getString("betl.kudu.output.gtags")
 
     SPARK_APPNAME = configuration.getString("betl.spark.app_name")
     SPARK_MASTER = configuration.getString("betl.spark.master")
