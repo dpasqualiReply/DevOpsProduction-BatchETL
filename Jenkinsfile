@@ -11,7 +11,6 @@ pipeline {
         sh 'sudo wget -O sbt-0.13.12.rpm  http://dl.bintray.com/sbt/rpm/sbt-0.13.12.rpm'
         sh 'sudo yum localinstall sbt-0.13.12.rpm -y'
         sh 'cp -Rf conf/* /opt/conf/'
-        //sh 'sudo wget http://mirror.nohup.it/apache/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz'
       }
     }
     stage('Test the System') {
