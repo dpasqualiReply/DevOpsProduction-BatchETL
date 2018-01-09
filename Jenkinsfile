@@ -6,7 +6,7 @@ pipeline {
         echo 'Setup the system'
         sh 'pwd'
         echo 'wget, curl, java, sbt and spark are now installed by Config Management system :)'
-        sh 'cp -Rf conf/* /opt/conf/'
+        sh 'cp -Rf conf/* $DEVOPS_CONF_DIR'
       }
     }
     stage('Test the System') {

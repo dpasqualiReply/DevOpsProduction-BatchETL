@@ -5,6 +5,7 @@ import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.Row
 import org.apache.spark.{SparkConf, SparkContext}
 import org.scalatest._
+import sys.process._
 
 class ETLSpec
   extends FlatSpec{
@@ -19,6 +20,8 @@ class ETLSpec
 
     CONF_DIR = scala.util.Properties.envOrElse("DEVOPS_CONF_DIR", "conf")
 
+
+    println("ECHO CONF DIR " + "echo $DEVOPS_CONF_DIR" !! )
     println(s"\n\n${CONF_DIR}\n\n")
 
     val configuration = ConfigFactory.parseFile(new File(s"${CONF_DIR}/${CONFIG_FILE}"))
