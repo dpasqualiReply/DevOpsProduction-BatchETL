@@ -4,12 +4,12 @@ pipeline {
     stage('Config System') {
       steps {
         echo 'Setup the system'
-        sh 'sudo su'
-        sh 'whoami'
-        sh 'sudo /etc/profile.d/exports.sh'
+        sh 'source /etc/profile'
+        sh 'source /etc/profile.d/exports.sh'
         echo 'wget, curl, java, sbt and spark are now installed by Config Management system :)'
-        sh 'sudo echo $DEVOPS_CONF_DIR'
-        sh 'sudo cp -Rf conf/* $DEVOPS_CONF_DIR'
+        sh 'env'
+        sh 'echo $DEVOPS_CONF_DIR'
+        sh 'cp -Rf conf/* $DEVOPS_CONF_DIR'
       }
     }
     stage('Test the System') {
