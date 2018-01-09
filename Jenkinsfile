@@ -28,7 +28,7 @@ pipeline {
     stage('Deploy') {
       steps {
         sh 'sudo cp target/*/*.jar /opt/deploy/batchETL'
-        sh 'sudo cp conf/* /opt/deploy/batchETL/conf'
+        sh 'sudo cp conf/* /opt/deploy/batchETL/'
       }
     }
   }
