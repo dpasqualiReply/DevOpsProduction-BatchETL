@@ -20,8 +20,6 @@ class ETLSpec
 
     CONF_DIR = scala.util.Properties.envOrElse("DEVOPS_CONF_DIR", "conf")
 
-    println("/etc/profile.d/exports.sh" !!)
-    println("echo $DEVOPS_CONF_DIR" !!)
     println(s"\n\n${CONF_DIR}\n\n")
 
     val configuration = ConfigFactory.parseFile(new File(s"${CONF_DIR}/${CONFIG_FILE}"))
