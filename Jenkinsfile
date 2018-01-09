@@ -4,7 +4,7 @@ pipeline {
     stage('Config System') {
       steps {
         echo 'Setup the system'
-        sh '''source /etc/environment
+        sh '''VARIABILE=VALOREEEEEEEE
 '''
         sh 'echo $DEVOPS_CONF_DIR'
         echo 'wget, curl, java, sbt and spark are now installed by Config Management system :)'
