@@ -6,20 +6,20 @@ pipeline {
         echo 'Setup the system'
         sh 'pwd'
         echo 'wget, curl, java, sbt and spark are now installed by Config Management system :)'
-        sh 'echo $DEVOPS_CONF_DIR'
-        sh 'cp -Rf conf/* $DEVOPS_CONF_DIR'
+        sh 'sudo echo $DEVOPS_CONF_DIR'
+        sh 'sudo cp -Rf conf/* $DEVOPS_CONF_DIR'
       }
     }
     stage('Test the System') {
       steps {
-        sh 'ls /opt/conf/'
+        sh 'sudo ls $DEVOPS_CONF_DIR'
         sh 'java -version'
         sh 'sbt about'
       }
     }
     stage('Test scalatest') {
       steps {
-        sh 'sbt clean test'
+        sh 'sudo sbt clean test'
         archiveArtifacts 'target/test-reports/*.xml'
       }
     }
