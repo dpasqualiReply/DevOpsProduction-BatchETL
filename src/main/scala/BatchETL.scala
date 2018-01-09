@@ -26,13 +26,15 @@ object BatchETL {
   val OUTPUT_MOVIES_BY_GENRES = "impala::datamart.genres"
 */
 
-  val CONFIG_FILE = "/opt/conf/BatchETL.conf"
+  var CONF_DIR = ""
+  var CONFIG_FILE = "BatchETL.conf"
 
   def main(args: Array[String]): Unit = {
 
     //val configuration = ConfigFactory.load("BatchETL")
 
-    val configuration = ConfigFactory.parseFile(new File(CONFIG_FILE))
+    CONF_DIR = scala.util.Properties.envOrElse("DEVOPS_CONF_DIR", "conf")
+    val configuration = ConfigFactory.parseFile(new File(s"${CONF_DIR}/${CONFIG_FILE}"))
 
     INPUT_MOVIES = configuration.getString("betl.hive.input.movies")
     INPUT_LINKS = configuration.getString("betl.hive.input.links")

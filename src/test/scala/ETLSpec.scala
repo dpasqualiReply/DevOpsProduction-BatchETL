@@ -9,14 +9,19 @@ import org.scalatest._
 class ETLSpec
   extends FlatSpec{
 
-  val CONFIG_FILE = "/opt/conf/BatchETL_staging.conf"
+  var CONF_DIR = ""
+  var CONFIG_FILE = "BatchETL_staging.conf"
 
   "The ETL process" should
     "merge movies and links in orther to take only useful info" in {
 
     //val configuration = ConfigFactory.load("BatchETL_staging")
 
-    val configuration = ConfigFactory.parseFile(new File(CONFIG_FILE))
+    CONF_DIR = scala.util.Properties.envOrElse("DEVOPS_CONF_DIR", "conf")
+
+    println(s"\n\n${CONF_DIR}\n\n")
+
+    val configuration = ConfigFactory.parseFile(new File(s"${CONF_DIR}/${CONFIG_FILE}"))
 
     val SPARK_APPNAME = configuration.getString("betl.spark.app_name")
     val SPARK_MASTER = configuration.getString("betl.spark.master")
