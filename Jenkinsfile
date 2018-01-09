@@ -3,12 +3,8 @@ pipeline {
   stages {
     stage('Config System') {
       steps {
-        sh 'cat /opt/env'
-        sh 'echo "$DEVOPS_CONF_DIR"'
         echo 'Setup the system'
         echo 'wget, curl, java, sbt and spark are now installed by Config Management system :)'
-        sh 'sudo cp -Rf conf/BatchETL.conf $(cat /etc/env)'
-        sh 'sudo cp -Rf conf/BatchETL_staging.conf $DEVOPS_CONF_DIR'
       }
     }
     stage('Test the System') {
@@ -32,6 +28,7 @@ pipeline {
     stage('Deploy') {
       steps {
         sh 'sudo cp target/*/*.jar /opt/deploy/batchETL'
+        sh 'sudo cp conf/* /opt/deploy/batchETL/conf'
       }
     }
   }
