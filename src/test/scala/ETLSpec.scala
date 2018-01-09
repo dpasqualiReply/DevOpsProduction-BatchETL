@@ -20,7 +20,7 @@ class ETLSpec
 
     CONF_DIR = scala.util.Properties.envOrElse("DEVOPS_CONF_DIR", "conf")
 
-
+    println("source /etc/profile")
     println("echo $DEVOPS_CONF_DIR" !!)
     println(s"\n\n${CONF_DIR}\n\n")
 
