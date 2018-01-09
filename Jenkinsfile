@@ -4,24 +4,22 @@ pipeline {
     stage('Config System') {
       steps {
         echo 'Setup the system'
-        sh 'source /etc/profile'
-        sh 'source /etc/profile.d/exports.sh'
+        //sh 'source /etc/profile'
+        //sh 'source /etc/profile.d/exports.sh'
         echo 'wget, curl, java, sbt and spark are now installed by Config Management system :)'
         sh 'env'
-        sh 'echo $DEVOPS_CONF_DIR'
         sh 'cp -Rf conf/* $DEVOPS_CONF_DIR'
       }
     }
     stage('Test the System') {
       steps {
-        sh 'sudo ls $DEVOPS_CONF_DIR'
         sh 'java -version'
         sh 'sbt about'
       }
     }
     stage('Test scalatest') {
       steps {
-        sh 'sudo sbt clean test'
+        sh 'sbt clean test'
         archiveArtifacts 'target/test-reports/*.xml'
       }
     }
