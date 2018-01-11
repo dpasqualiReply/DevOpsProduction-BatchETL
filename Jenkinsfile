@@ -16,7 +16,6 @@ pipeline {
     stage('Test scalatest') {
       steps {
         sh 'sbt clean test'
-        archiveArtifacts 'target/test-reports/*.xml'
       }
     }
     stage('Build') {
@@ -34,7 +33,7 @@ pipeline {
   post {
     always {
       archiveArtifacts artifacts: 'target/scala-*/*.jar', fingerprint: true
-      junit '**/target/test-reports/*.xml'
+      archiveArtifacts 'target/test-reports/*.xml'
     }
   }
 }
