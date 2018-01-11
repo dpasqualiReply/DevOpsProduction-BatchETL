@@ -51,7 +51,8 @@ object BatchETL {
     val sc = new SparkContext(conf)
     val sqlContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
-    val kuduContext = new KuduContext(KUDU_MASTER, sc)
+    val kuduContextGTags = new KuduContext(KUDU_MASTER, sc)
+    val kuduContextMovies = new KuduContext(KUDU_MASTER, sc)
 
     val log = Logger.getLogger(getClass.getName)
 
@@ -61,10 +62,10 @@ object BatchETL {
 
     log.warn("***** KUDU TABLES MUST EXISTS!!!!! *****")
 
-    val genomeExists = kuduContext.tableExists(OUTPUT_KUDU_GTAGS)
-    val movieExists = kuduContext.tableExists(OUTPUT_KUDU_MOVIES)
+    val genomeExists = kuduContextGTags.tableExists(OUTPUT_KUDU_GTAGS)
+    val movieExists = kuduContextMovies.tableExists(OUTPUT_KUDU_MOVIES)
 
-    if(!genomeExists || movieExists){
+    if(!genomeExists || !movieExists){
       log.error("***** CREATE KUDU TABLES BEFORE RUN THIS SHIT *****")
       sc.stop()
       sys.exit(1)
@@ -93,8 +94,8 @@ object BatchETL {
 
     log.info("***** Store Genometags and enriched movies to Kudu Data Mart *****")
 
-    //kuduContext.insertRows(outGTag, OUTPUT_KUDU_GTAGS)
-    kuduContext.insertRows(outMovies, OUTPUT_KUDU_MOVIES)
+    kuduContextGTags.insertRows(outGTag, OUTPUT_KUDU_GTAGS)
+    kuduContextMovies.insertRows(outMovies, OUTPUT_KUDU_MOVIES)
 
     log.info("***** Close Spark session *****")
 
