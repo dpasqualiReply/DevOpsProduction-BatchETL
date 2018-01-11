@@ -30,11 +30,11 @@ pipeline {
         sh 'sudo cp conf/* /opt/deploy/batchETL/'
       }
     }
-    post {
-      always {
-        archiveArtifacts artifacts: 'target/scala-*/*.jar', fingerprint: true
-        junit 'target/test-reports/*.xml'
-      }
+  }
+  post {
+    always {
+      archiveArtifacts artifacts: 'target/scala-*/*.jar', fingerprint: true
+      junit 'target/test-reports/*.xml'
     }
   }
 }
