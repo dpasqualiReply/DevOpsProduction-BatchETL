@@ -47,13 +47,28 @@ object BatchETL {
     SPARK_APPNAME = configuration.getString("betl.spark.app_name")
     SPARK_MASTER = configuration.getString("betl.spark.master")
 
-
     val conf = new SparkConf().setMaster(SPARK_MASTER).setAppName(SPARK_APPNAME)
     val sc = new SparkContext(conf)
-    val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+    val sqlContext = new org.apache.spark.sql.hive.HiveContext(sc)
+
     val kuduContext = new KuduContext(KUDU_MASTER, sc)
 
     val log = Logger.getLogger(getClass.getName)
+
+    log.info(s"Kudu Master = ${KUDU_MASTER}")
+    log.info(s"Kudu Gtag table = ${OUTPUT_KUDU_GTAGS}")
+    log.info(s"Kudu Movies table = ${OUTPUT_KUDU_MOVIES}")
+
+    log.warn("***** KUDU TABLES MUST EXISTS!!!!! *****")
+
+    val genomeExists = kuduContext.tableExists(OUTPUT_KUDU_MOVIES)
+    val movieExists = kuduContext.tableExists(OUTPUT_KUDU_GTAGS)
+
+    if(!genomeExists || movieExists){
+      log.error("***** CREATE KUDU TABLES BEFORE RUN THIS SHIT *****")
+      sc.stop()
+      sys.exit(1)
+    }
 
     log.info("***** Load Movies, Links and Genome_tags from Hive Data Lake *****")
 
