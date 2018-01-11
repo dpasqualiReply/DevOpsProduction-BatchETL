@@ -22,13 +22,18 @@ pipeline {
     stage('Build') {
       steps {
         sh 'sbt clean compile package assembly'
-        archiveArtifacts 'target/scala-*/*.jar'
       }
     }
     stage('Deploy') {
       steps {
         sh 'sudo cp target/*/*.jar /opt/deploy/batchETL'
         sh 'sudo cp conf/* /opt/deploy/batchETL/'
+      }
+    }
+    post {
+      always {
+        archiveArtifacts artifacts: 'target/scala-*/*.jar', fingerprint: true
+        junit 'target/test-reports/*.xml'
       }
     }
   }
