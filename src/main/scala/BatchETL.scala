@@ -61,8 +61,8 @@ object BatchETL {
 
     log.warn("***** KUDU TABLES MUST EXISTS!!!!! *****")
 
-    val genomeExists = kuduContext.tableExists(OUTPUT_KUDU_MOVIES)
-    val movieExists = kuduContext.tableExists(OUTPUT_KUDU_GTAGS)
+    val genomeExists = kuduContext.tableExists(OUTPUT_KUDU_GTAGS)
+    val movieExists = kuduContext.tableExists(OUTPUT_KUDU_MOVIES)
 
     if(!genomeExists || movieExists){
       log.error("***** CREATE KUDU TABLES BEFORE RUN THIS SHIT *****")
@@ -76,6 +76,10 @@ object BatchETL {
     val links = sqlContext.sql(s"select * from ${INPUT_LINKS}")
     val gtags = sqlContext.sql(s"select * from ${INPUT_GTAGS}")
 
+    movies.show()
+    links.show()
+    gtags.show()
+
     log.info("***** Do nothing on tags *****")
 
     val gtagCols = Seq("tagid", "tag")
@@ -85,9 +89,11 @@ object BatchETL {
 
     val outMovies = ETL.enrichMovies(movies, links)
 
+    outMovies.show()
+
     log.info("***** Store Genometags and enriched movies to Kudu Data Mart *****")
 
-    kuduContext.insertRows(outGTag, OUTPUT_KUDU_GTAGS)
+    //kuduContext.insertRows(outGTag, OUTPUT_KUDU_GTAGS)
     kuduContext.insertRows(outMovies, OUTPUT_KUDU_MOVIES)
 
     log.info("***** Close Spark session *****")
