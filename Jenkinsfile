@@ -34,7 +34,7 @@ pipeline {
   post {
     always {
       archiveArtifacts artifacts: 'target/scala-*/*.jar', fingerprint: true
-      junit 'target/test-reports/*.xml'
+      junit '**/target/test-reports/*.xml'
     }
   }
 }
